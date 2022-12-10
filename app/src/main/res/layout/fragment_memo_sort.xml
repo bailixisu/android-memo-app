@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragment.MemoSortFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/notCompleteTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:text="标题"/>
+            <ImageView
+                android:id="@+id/notCompleteImage"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginStart="285dp"
+                android:src="@drawable/ic_shou_qi_22dp"/>
+
+        </LinearLayout>
+        <ListView
+            android:id="@+id/memoList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="#00000000"
+            android:dividerHeight="7dp"
+            android:choiceMode="singleChoice" />
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

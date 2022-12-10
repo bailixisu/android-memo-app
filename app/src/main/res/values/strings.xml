@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">BeBetter</string>
+    <string name="title_activity_main">MainActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello MEMO</string>
+    <string name="memo">备忘</string>
+    <string name="foot">足迹</string>
+    <string name="user">用户</string>
+    <string name="my">我的</string>
+    <string name="edit_memo_toolbar">添加备忘</string>
+    <string name="memo_content_hint">备忘内容</string>
+    <string name="api_key">498c27aa54e5d1c7b616f4c09b64dd7e</string>
+
+
+    <!--    iconfont 资源-->
+    <string name="memoIcon">&#xe62d;</string>
+    <string name="backIcon">&#xe7a8;</string>
+    <string name="saveIcon">&#xe65d;</string>
+    <string name="startTimeIcon">&#xe8a9;</string>
+    <string name="deadlineIcon">&#xe605;</string>
+    <string name="deleteIcon">&#xe68e;</string>
+</resources>
