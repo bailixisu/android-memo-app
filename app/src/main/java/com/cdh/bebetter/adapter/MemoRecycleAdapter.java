@@ -100,6 +100,7 @@ public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.
                 }else {
                     memoList.get((Integer) viewHolder.linearLayout.getTag()).setStatus(Constant.COMPLETE);
                     viewHolder.completeButtonInList.setTag(Constant.COMPLETE);
+                    memoList.get(i).setCompleteTime(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
                     notifyDataSetChanged();
                 }
                 onSortItemClickListener.onItemChange(memoList.get(i));

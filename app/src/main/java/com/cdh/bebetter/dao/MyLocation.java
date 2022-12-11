@@ -1,19 +1,32 @@
 package com.cdh.bebetter.dao;
 
+import java.util.Date;
+
 public class MyLocation {
     Long id;
     Double latitude;
     Double longitude;
     String time;
+    Long memoId;
 
-    public MyLocation(Double latitude, Double longitude, String time, Long id) {
+    public MyLocation(Double latitude, Double longitude, String time, Long memoId) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.time = time;
-        this.id = id;
+        this.memoId = memoId;
+        this.id = new Date().getTime();
+    }
+
+    public Long getMemoId() {
+        return memoId;
+    }
+
+    public void setMemoId(Long memoId) {
+        this.memoId = memoId;
     }
 
     public MyLocation() {
+        this.id = new Date().getTime();
     }
 
     public Double getLatitude() {
@@ -40,15 +53,6 @@ public class MyLocation {
         this.time = time;
     }
 
-    @Override
-    public String toString() {
-        return "MyLocation{" +
-                "latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", time='" + time + '\'' +
-                ", id=" + id +
-                '}';
-    }
 
     public Long getId() {
         return id;
@@ -56,5 +60,16 @@ public class MyLocation {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "MyLocation{" +
+                "id=" + id +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", time='" + time + '\'' +
+                ", memoId=" + memoId +
+                '}';
     }
 }

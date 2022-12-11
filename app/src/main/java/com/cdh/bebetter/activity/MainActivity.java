@@ -25,6 +25,7 @@ import com.cdh.bebetter.R;
 import com.cdh.bebetter.adapter.MemoSortAdapter;
 import com.cdh.bebetter.adapter.MyFragmentPagerAdapter;
 import com.cdh.bebetter.dao.SortMemo;
+import com.cdh.bebetter.fragment.FootFragment;
 import com.cdh.bebetter.fragment.MemoFragment;
 import com.cdh.bebetter.views.NoSwipeViewPager;
 
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements MemoFragment.OnMe
     private NoSwipeViewPager viewPager;
 
     private MyFragmentPagerAdapter myFragmentPagerAdapter;
+    private FootFragment footFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements MemoFragment.OnMe
 
 
     private void findByIdAndInit(){
+        footFragment = myFragmentPagerAdapter.getFootFragment();
         toolbar = findViewById(R.id.toolbar);
         bottomBar = findViewById(R.id.bottom_bar);
         memoButton = findViewById(R.id.rb_memo);
@@ -92,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements MemoFragment.OnMe
                             break;
                         case Constant.FOOT_PAGE:
                             bottomBar.check(footButton.getId());
+                            footFragment.initData();
                             break;
                         case Constant.USER_PAGE:
                             bottomBar.check(userButton.getId());
@@ -119,6 +123,15 @@ public class MainActivity extends AppCompatActivity implements MemoFragment.OnMe
         bottomBar.setBackgroundColor(color);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(color);
+        }
+    }
+
+    @Override
+    public void getMyLocation(Long memo_id) {
+        try {
+            footFragment.location(memo_id);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

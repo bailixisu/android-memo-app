@@ -113,4 +113,26 @@ public class DatabaseAdapter {
     public void memoDeleteBySort(String sort){
         sqLiteDatabase.delete(MemoTable.TABLE_NAME,MemoTable.SORT + "=?",new String[]{sort});
     }
+
+    //根据id查找memo
+    @SuppressLint("Range")
+    public Memo memoFindById(Long id){
+        Cursor cursor = sqLiteDatabase.query(MemoTable.TABLE_NAME,null,MemoTable.ID + "=?",new String[]{id.toString()},null,null,null);
+        Memo memo = new Memo();
+        if (cursor.getCount() > 0){
+            cursor.moveToFirst();
+            memo.setId(cursor.getLong(cursor.getColumnIndex(MemoTable.ID)));
+            memo.setContent(cursor.getString(cursor.getColumnIndex(MemoTable.CONTENT)));
+            memo.setStartTime(cursor.getString(cursor.getColumnIndex(MemoTable.START_TIME)));
+            memo.setDeadline(cursor.getString(cursor.getColumnIndex(MemoTable.DEADLINE)));
+            memo.setCompleteTime(cursor.getString(cursor.getColumnIndex(MemoTable.COMPLETE_TIME)));
+            memo.setNote(cursor.getString(cursor.getColumnIndex(MemoTable.NOTE)));
+            memo.setSort(cursor.getString(cursor.getColumnIndex(MemoTable.SORT)));
+            memo.setStatus(cursor.getInt(cursor.getColumnIndex(MemoTable.STATUS)));
+            memo.setLike(cursor.getInt(cursor.getColumnIndex(MemoTable.LIKE)));
+            memo.setCirculate(cursor.getInt(cursor.getColumnIndex(MemoTable.CIRCULATE)));
+            memo.setColor(cursor.getInt(cursor.getColumnIndex(MemoTable.COLOR)));
+        }
+        return memo;
+    }
 }

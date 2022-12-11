@@ -1,10 +1,17 @@
 package com.cdh.bebetter.fragment;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
@@ -16,6 +23,7 @@ import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
@@ -55,7 +63,9 @@ import com.cdh.bebetter.adapter.MainSortListItemAdapter;
 import com.cdh.bebetter.adapter.MemoAdapter;
 import com.cdh.bebetter.adapter.MemoRecycleAdapter;
 import com.cdh.bebetter.adapter.MemoSortDatabaseAdapter;
+import com.cdh.bebetter.adapter.MyLocationDatabaseAdapter;
 import com.cdh.bebetter.dao.Memo;
+import com.cdh.bebetter.dao.MyLocation;
 import com.cdh.bebetter.dao.SortMemo;
 
 import java.io.BufferedReader;
@@ -72,6 +82,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -80,7 +91,7 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 public class MemoFragment extends Fragment implements MainSortListItemAdapter.OnSortItemClickListener
-    , MemoRecycleAdapter.OnSortItemClickListener {
+        , MemoRecycleAdapter.OnSortItemClickListener {
     private RecyclerView memoList;
     private RecyclerView completedMemoList;
     private RecyclerView outOfDateMemoList;
@@ -94,7 +105,7 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
     ImageView notCompleteImage;
     ImageView completeImage;
     ImageView outOfDateImage;
-    TextView notCompleteTitle  ;
+    TextView notCompleteTitle;
     TextView completeTitle;
     TextView outOfDateTitle;
     TextView title;
@@ -104,6 +115,7 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
     MemoRecycleAdapter outOfDateMemoAdapter;
     DatabaseAdapter databaseAdapter;
     MemoSortDatabaseAdapter memoSortDatabaseAdapter;
+    MyLocationDatabaseAdapter myLocationDatabaseAdapter;
     ImageView mainImage;
     LinearLayout mainTitleLayout;
     List<SortMemo> sortMemoList;
@@ -113,6 +125,8 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
     PopupWindow popupWindow;
     PopupWindow addSortPopupWindow;
     MemoFragment.OnMemoFragmentListener mListener;
+    LocationListener locationListener;
+    LocationManager locationManager;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -174,18 +188,21 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
     @Override
     public void onStart() {
         super.onStart();
+//        locationManager.removeUpdates(locationListener);
         databaseAdapter = new DatabaseAdapter(getContext());
         databaseAdapter.open();
         memoSortDatabaseAdapter = new MemoSortDatabaseAdapter(getContext());
         memoSortDatabaseAdapter.open();
-        setMemoListByFilter(Constant.ALL_MEMO_STRING,Constant.COLOR_BACKGROUND_COLOR_0);
+        myLocationDatabaseAdapter = new MyLocationDatabaseAdapter(getContext());
+        myLocationDatabaseAdapter.open();
+        setMemoListByFilter(Constant.ALL_MEMO_STRING, Constant.COLOR_BACKGROUND_COLOR_0);
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("filterTag",filterTag);
-        outState.putInt("backgroundColor",backgroundColor);
+        outState.putString("filterTag", filterTag);
+        outState.putInt("backgroundColor", backgroundColor);
     }
 
 
@@ -194,6 +211,7 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
         super.onStop();
         databaseAdapter.close();
         memoSortDatabaseAdapter.close();
+        myLocationDatabaseAdapter.close();
     }
 
     public void findByIdAndInit() {
@@ -206,10 +224,10 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
         mainImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(view.getTag() == null){
+                if (view.getTag() == null) {
                     view.setTag(false);
-                }else {
-                    view.setTag(!((boolean)view.getTag()));
+                } else {
+                    view.setTag(!((boolean) view.getTag()));
                 }
                 imageRotate((ImageView) view);
                 initMainSortPopWindow(view);
@@ -254,8 +272,8 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
 //                mediaPlayer.start();
 
                 Intent intent = new Intent(getContext(), MemoEditActivity.class);
-                intent.putExtra("sort",filterTag);
-                intent.putExtra("backgroundColor",backgroundColor);
+                intent.putExtra("sort", filterTag);
+                intent.putExtra("backgroundColor", backgroundColor);
                 startActivity(intent);
 //
 //                HttpURLConnection httpURLConnection = null;
@@ -288,14 +306,14 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
         notCompleteImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(view.getTag() == null){
+                if (view.getTag() == null) {
                     view.setTag(false);
-                }else {
-                    view.setTag(!((boolean)view.getTag()));
+                } else {
+                    view.setTag(!((boolean) view.getTag()));
                 }
-                if (!(boolean)view.getTag()){
+                if (!(boolean) view.getTag()) {
                     memoAdapter.setIsClear(false);
-                }else {
+                } else {
                     memoAdapter.setIsClear(true);
                     listViewAnimation();
                 }
@@ -311,14 +329,14 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
         completeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(view.getTag() == null){
+                if (view.getTag() == null) {
                     view.setTag(false);
-                }else {
-                    view.setTag(!((boolean)view.getTag()));
+                } else {
+                    view.setTag(!((boolean) view.getTag()));
                 }
-                if (!(boolean)view.getTag()){
+                if (!(boolean) view.getTag()) {
                     completedMemoAdapter.setIsClear(false);
-                }else {
+                } else {
                     completedMemoAdapter.setIsClear(true);
                     listViewAnimation();
                 }
@@ -335,14 +353,14 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
         outOfDateImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(view.getTag() == null){
+                if (view.getTag() == null) {
                     view.setTag(false);
-                }else {
-                    view.setTag(!((boolean)view.getTag()));
+                } else {
+                    view.setTag(!((boolean) view.getTag()));
                 }
-                if (!(boolean)view.getTag()){
+                if (!(boolean) view.getTag()) {
                     outOfDateMemoAdapter.setIsClear(false);
-                }else {
+                } else {
                     outOfDateMemoAdapter.setIsClear(true);
                     listViewAnimation();
                 }
@@ -355,24 +373,25 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
         memoListEmptyLayout = view.findViewById(R.id.noMemoLayout);
         listViewAnimation();
     }
-    public void imageRotate(ImageView imageView){
-        if (!(boolean)imageView.getTag()){
-            imageView.setTag(!((boolean)imageView.getTag()));
-            imageView.animate().rotation(180).setDuration(200).start();}
-        else {
+
+    public void imageRotate(ImageView imageView) {
+        if (!(boolean) imageView.getTag()) {
+            imageView.setTag(!((boolean) imageView.getTag()));
+            imageView.animate().rotation(180).setDuration(200).start();
+        } else {
             imageView.animate().rotation(0).setDuration(200).start();
         }
     }
 
-    public void imageRotateForList(ImageView imageView){
-        if (!(boolean)imageView.getTag()){
-            imageView.animate().rotation(180).setDuration(200).start();}
-        else {
+    public void imageRotateForList(ImageView imageView) {
+        if (!(boolean) imageView.getTag()) {
+            imageView.animate().rotation(180).setDuration(200).start();
+        } else {
             imageView.animate().rotation(0).setDuration(200).start();
         }
     }
 
-    public void listViewAnimation(){
+    public void listViewAnimation() {
         Animation animation = (Animation) AnimationUtils.loadAnimation(getContext(), R.anim.dan_ru_dan_chu);
         LayoutAnimationController layoutAnimationController = new LayoutAnimationController(animation);
         layoutAnimationController.setOrder(LayoutAnimationController.ORDER_NORMAL);
@@ -380,6 +399,7 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
         completedMemoList.setLayoutAnimation(layoutAnimationController);
         outOfDateMemoList.setLayoutAnimation(layoutAnimationController);
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -387,10 +407,10 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
     }
 
     //初始化弹窗
-    void initMainSortPopWindow(View v){
+    void initMainSortPopWindow(View v) {
         View popWindowView = getActivity().getLayoutInflater().inflate(R.layout.main_sort_popwindow, null);
 //        View popWindowView = LayoutInflater.from(getContext()).inflate(R.layout.main_sort_popwindow,null);
-        popupWindow = new PopupWindow(popWindowView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,true);
+        popupWindow = new PopupWindow(popWindowView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -405,7 +425,7 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
         allMemoCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setMemoListByFilter(Constant.ALL_MEMO_STRING,Constant.COLOR_BACKGROUND_COLOR_0);
+                setMemoListByFilter(Constant.ALL_MEMO_STRING, Constant.COLOR_BACKGROUND_COLOR_0);
                 popupWindow.dismiss();
             }
         });
@@ -414,7 +434,7 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
         notSortMemoCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setMemoListByFilter(Constant.NOT_SORT_MEMO_STRING,Constant.COLOR_BACKGROUND_COLOR_0);
+                setMemoListByFilter(Constant.NOT_SORT_MEMO_STRING, Constant.COLOR_BACKGROUND_COLOR_0);
                 popupWindow.dismiss();
             }
         });
@@ -422,8 +442,8 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
         notSortMemoCount.setText(String.valueOf(getSortCount(Constant.NOT_SORT_MEMO_STRING)));
 
         RecyclerView mainSortList = popWindowView.findViewById(R.id.mainSortList);
-        MainSortListItemAdapter mainSortListItemAdapter = new MainSortListItemAdapter(getContext(),sortMemoList,memos,this);
-        mainSortList.setLayoutManager(new LinearLayoutManager(getActivity()){
+        MainSortListItemAdapter mainSortListItemAdapter = new MainSortListItemAdapter(getContext(), sortMemoList, memos, this);
+        mainSortList.setLayoutManager(new LinearLayoutManager(getActivity()) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -435,7 +455,7 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
         popupWindow.setTouchable(true);
         popupWindow.setFocusable(true);
         popupWindow.setBackgroundDrawable(new ColorDrawable(backgroundColor));
-        popupWindow.showAtLocation(popWindowView, Gravity.BOTTOM,0,60);
+        popupWindow.showAtLocation(popWindowView, Gravity.BOTTOM, 0, 60);
         CardView mainPopWindowRootCard = popWindowView.findViewById(R.id.mainPopWindowRootCard);
         mainPopWindowRootCard.setCardBackgroundColor(backgroundColor);
 
@@ -459,9 +479,9 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
 //        setBackgroundAlpha(0.8f);
     }
 
-    private SpannableString getSpannableString(String content){
+    private SpannableString getSpannableString(String content) {
         SpannableString spannableString = new SpannableString(content);
-        spannableString.setSpan(new StrikethroughSpan(),0,spannableString.length(),0);
+        spannableString.setSpan(new StrikethroughSpan(), 0, spannableString.length(), 0);
         return spannableString;
     }
 
@@ -472,23 +492,23 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
         getActivity().getWindow().setAttributes(lp);
     }
 
-    private List<Memo> getMemosByFilter(String filterTag){
-        if(filterTag.equals("全部待办")){
+    private List<Memo> getMemosByFilter(String filterTag) {
+        if (filterTag.equals("全部待办")) {
             return memos;
         }
         List<Memo> newMemos = new ArrayList<>();
         for (int i = 0; i < memos.size(); i++) {
-            if(filterTag.equals(memos.get(i).getSort())){
+            if (filterTag.equals(memos.get(i).getSort())) {
                 newMemos.add(memos.get(i));
             }
         }
         return newMemos;
     }
 
-    private List<Memo> getMemosByStatus(Integer status, List<Memo> memos){
+    private List<Memo> getMemosByStatus(Integer status, List<Memo> memos) {
         List<Memo> newMemos = new ArrayList<>();
         for (int i = 0; i < memos.size(); i++) {
-            if(memos.get(i).getStatus() == status){
+            if (memos.get(i).getStatus() == status) {
                 newMemos.add(memos.get(i));
             }
         }
@@ -497,12 +517,12 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
 
     @Override
     public void onItemClick(String sortText, int color) {
-        setMemoListByFilter(sortText,color);
+        setMemoListByFilter(sortText, color);
         popupWindow.dismiss();
     }
 
     @SuppressLint("SetTextI18n")
-    private void setMemoListByFilter(String sortText, int color){
+    private void setMemoListByFilter(String sortText, int color) {
         filterTag = sortText;
         backgroundColor = color;
         title.setText(sortText);
@@ -510,91 +530,91 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
         int count = getSortCount(sortText);
         sortMemoList = memoSortDatabaseAdapter.memoFindAllRecords();
         List<Memo> filterMemos = getMemosByFilter(sortText);
-        List<Memo> notCompleteMemos = getMemosByStatus(Constant.NOT_COMPLETE,filterMemos);
-        memoAdapter = new MemoRecycleAdapter(notCompleteMemos,getContext(),this);
-        memoList.setLayoutManager(new LinearLayoutManager(getActivity()){
+        List<Memo> notCompleteMemos = getMemosByStatus(Constant.NOT_COMPLETE, filterMemos);
+        memoAdapter = new MemoRecycleAdapter(notCompleteMemos, getContext(), this);
+        memoList.setLayoutManager(new LinearLayoutManager(getActivity()) {
             @Override
             public boolean canScrollVertically() {
                 return false;
             }
         });
         memoList.setAdapter(memoAdapter);
-        if (notCompleteMemos.size() == 0){
+        if (notCompleteMemos.size() == 0) {
             memoListLayout.setVisibility(View.GONE);
-        }else {
+        } else {
             memoListLayout.setVisibility(View.VISIBLE);
         }
 
-        List<Memo> completeMemos = getMemosByStatus(Constant.COMPLETE,filterMemos);
-        completedMemoAdapter = new MemoRecycleAdapter(completeMemos,getContext(),this);
-        completedMemoList.setLayoutManager(new LinearLayoutManager(getActivity()){
+        List<Memo> completeMemos = getMemosByStatus(Constant.COMPLETE, filterMemos);
+        completedMemoAdapter = new MemoRecycleAdapter(completeMemos, getContext(), this);
+        completedMemoList.setLayoutManager(new LinearLayoutManager(getActivity()) {
             @Override
             public boolean canScrollVertically() {
                 return false;
             }
         });
         completedMemoList.setAdapter(completedMemoAdapter);
-        if (completeMemos.size() == 0){
+        if (completeMemos.size() == 0) {
             completedMemoListLayout.setVisibility(View.GONE);
-        }else {
+        } else {
             completedMemoListLayout.setVisibility(View.VISIBLE);
         }
 
 
-        List<Memo> outOfDateMemos = getMemosByStatus(Constant.OUT_DATE,filterMemos);
-        outOfDateMemoAdapter = new MemoRecycleAdapter(outOfDateMemos,getContext(),this);
-        outOfDateMemoList.setLayoutManager(new LinearLayoutManager(getActivity()){
+        List<Memo> outOfDateMemos = getMemosByStatus(Constant.OUT_DATE, filterMemos);
+        outOfDateMemoAdapter = new MemoRecycleAdapter(outOfDateMemos, getContext(), this);
+        outOfDateMemoList.setLayoutManager(new LinearLayoutManager(getActivity()) {
             @Override
             public boolean canScrollVertically() {
                 return false;
             }
         });
         outOfDateMemoList.setAdapter(outOfDateMemoAdapter);
-        if (outOfDateMemos.size() == 0){
+        if (outOfDateMemos.size() == 0) {
             outOfDateMemoListLayout.setVisibility(View.GONE);
-        }else {
+        } else {
             outOfDateMemoListLayout.setVisibility(View.VISIBLE);
         }
 
-        if (filterMemos.size() == 0){
+        if (filterMemos.size() == 0) {
             memoListEmptyLayout.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             memoListEmptyLayout.setVisibility(View.GONE);
         }
 
         memoFragmentContainerRoot.setBackgroundColor(color);
-        if(mListener != null){
+        if (mListener != null) {
             mListener.onBackGroundChange(color);
         }
-        if(count == 0){
+        if (count == 0) {
             mainTitleLayout.removeView(memoCount);
             return;
         }
-        if (mainTitleLayout.getChildCount() == 1){
+        if (mainTitleLayout.getChildCount() == 1) {
             mainTitleLayout.addView(memoCount);
         }
-        memoCount.setText(String.valueOf(count)+"条待办");
+        memoCount.setText(String.valueOf(count) + "条待办");
     }
 
-    private Integer getSortCount(String sort){
+    private Integer getSortCount(String sort) {
         int count = 0;
-        if(sort.equals(Constant.ALL_MEMO_STRING)){
+        if (sort.equals(Constant.ALL_MEMO_STRING)) {
             return memos.size();
         }
         for (int i = 0; i < memos.size(); i++) {
-            if(sort.equals(memos.get(i).getSort())){
+            if (sort.equals(memos.get(i).getSort())) {
                 count++;
             }
         }
         return count;
     }
 
-    private void initAddSortPopWindow(){
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.add_memo_sort_popwindow,null);
+    private void initAddSortPopWindow() {
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.add_memo_sort_popwindow, null);
         SortMemo sortMemo = new SortMemo();
         sortMemo.setSortIconColor(Constant.COLOR_1);
         sortMemo.setSortBackgroundColor(Constant.COLOR_BACKGROUND_COLOR_1);
-        addSortPopupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT,true);
+        addSortPopupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         addSortPopupWindow.setOutsideTouchable(true);
         addSortPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         setBackgroundAlpha(0.8f);
@@ -602,7 +622,7 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
         addSortPopupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
 //        addSortPopupWindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
         addSortPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        addSortPopupWindow.showAtLocation(view, Gravity.BOTTOM,0,826);
+        addSortPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 826);
         addSortPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -619,7 +639,7 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
         addMemoSortCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imm.hideSoftInputFromWindow(view.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 addSortPopupWindow.dismiss();
             }
         });
@@ -628,15 +648,15 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
         addMemoSortSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(view.getAlpha() == 1.0f){
+                if (view.getAlpha() == 1.0f) {
                     try {
-                        if(!memoSortDatabaseAdapter.isRecordExist(sortMemo.getSortText())){
+                        if (!memoSortDatabaseAdapter.isRecordExist(sortMemo.getSortText())) {
                             memoSortDatabaseAdapter.memoSortInsert(sortMemo);
-                            imm.hideSoftInputFromWindow(view.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                             addSortPopupWindow.dismiss();
-                            setMemoListByFilter(sortMemo.getSortText(),sortMemo.getSortBackgroundColor());
-                        }else {
-                            Toast.makeText(getContext(),"分类已存在",Toast.LENGTH_SHORT).show();
+                            setMemoListByFilter(sortMemo.getSortText(), sortMemo.getSortBackgroundColor());
+                        } else {
+                            Toast.makeText(getContext(), "分类已存在", Toast.LENGTH_SHORT).show();
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -647,7 +667,7 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
 //        addSortEdit.requestFocus();
 //        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
-        new Handler().postDelayed(new Runnable(){
+        new Handler().postDelayed(new Runnable() {
             public void run() {
                 addSortEdit.requestFocus();
                 imm.showSoftInput(addSortEdit, InputMethodManager.SHOW_IMPLICIT);
@@ -660,7 +680,7 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 int index = 0;
-                switch (i){
+                switch (i) {
                     case R.id.memoSortEditPopWindowRadioButton1:
                         index = 0;
                         break;
@@ -704,7 +724,7 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
 
             @Override
             public void afterTextChanged(Editable editable) {
-                addMemoSortSave.setAlpha(editable.toString().length() > 0?1.0f:0.6f);
+                addMemoSortSave.setAlpha(editable.toString().length() > 0 ? 1.0f : 0.6f);
                 sortMemo.setSortText(editable.toString());
             }
         });
@@ -712,17 +732,53 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
 
     @Override
     public void onRadioButtonClick() {
-        setMemoListByFilter(filterTag,backgroundColor);
+        setMemoListByFilter(filterTag, backgroundColor);
     }
 
     @Override
     public void onItemChange(Memo memo) {
+        if(memo.getStatus() == Constant.COMPLETE){
+            Log.d("TAG", "onItemChange: "+memo.toString());
+            Log.d("TAG", "onItemChange: "+memo.getId());
+//            getFinishedMemoLocation(memo.getId());
+            mListener.getMyLocation(memo.getId());
+        }
         databaseAdapter.memoUpdate(memo);
-        setMemoListByFilter(filterTag,backgroundColor);
+        setMemoListByFilter(filterTag, backgroundColor);
     }
 
     //回调函数的接口
-    public interface OnMemoFragmentListener{
+    public interface OnMemoFragmentListener {
         void onBackGroundChange(int color);
+        void getMyLocation(Long memo_id);
+    }
+
+    //获取完成memo的位置
+    public void getFinishedMemoLocation(Long id) {
+        Log.d("TAG", "getFinishedMemoLocation: "+id);
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+                Log.d("TAG", "getFinishedMemoLocation: 3333333333333333333311");
+                if (location != null) {
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    Date date = new Date(System.currentTimeMillis());
+                    String time = simpleDateFormat.format(date);
+                    Log.d("TAG", "getFinishedMemoLocation: "+id);
+                    myLocationDatabaseAdapter.myLocationInsert(new MyLocation(latitude, longitude, time, id));
+                    locationManager.removeUpdates(locationListener);
+                }
+            }
+        };
+        locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,1000,10,locationListener);
+//        locationManager.removeUpdates(locationListener);
     }
 }

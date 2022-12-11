@@ -62,4 +62,8 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
         }
         return fragment;
     }
+
+    public FootFragment getFootFragment() {
+        return footFragment;
+    }
 }
