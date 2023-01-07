@@ -45,6 +45,12 @@ public class DatabaseAdapter {
     }
 
     public void memoInsert(Memo memo){
+        // 查看是否有重复的id
+        Cursor cursor = sqLiteDatabase.query(MemoTable.TABLE_NAME,null,MemoTable.ID + "=?",new String[]{memo.getId().toString()},null,null,null);
+        if (cursor.getCount() > 0){
+            Log.d(TAG, "memoInsert: 重复的id");
+            return;
+        }
         //将memo对象插入数据库
         ContentValues contentValues = new ContentValues();
         contentValues.put(MemoTable.START_TIME,memo.getStartTime());

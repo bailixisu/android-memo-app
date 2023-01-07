@@ -45,6 +45,9 @@ public class MemoSortDatabaseAdapter {
     }
 
     public void memoSortInsert(SortMemo sortMemo){
+        if (isRecordExist(sortMemo.getSortText())){
+            return;
+        }
         //将memoSort对象插入数据库
         ContentValues contentValues = new ContentValues();
         contentValues.put(MemoSortTable.SORT_TEXT,sortMemo.getSortText());

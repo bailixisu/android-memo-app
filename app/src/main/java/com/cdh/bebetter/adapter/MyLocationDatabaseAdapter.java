@@ -46,8 +46,13 @@ public class MyLocationDatabaseAdapter {
     }
 
    public void myLocationInsert(MyLocation myLocation){
+         //检查是否已经存在
+         Cursor cursor = sqLiteDatabase.query(MyLocationTable.TABLE_NAME,null,MyLocationTable.ID + " = ?",new String[]{String.valueOf(myLocation.getId())},null,null,null);
+         if (cursor.getCount() > 0){
+              Log.d(TAG, "myLocationInsert: 重复的id");
+              return;
+            }
         //将MyLocation对象插入数据库
-       Log.d(TAG, "myLocationInsert: "+myLocation.toString());
         ContentValues contentValues = new ContentValues();
         contentValues.put(MyLocationTable.LATITUDE,myLocation.getLatitude());
         contentValues.put(MyLocationTable.LONGITUDE,myLocation.getLongitude());
@@ -55,7 +60,6 @@ public class MyLocationDatabaseAdapter {
         contentValues.put(MyLocationTable.ID,myLocation.getId());
         contentValues.put(MyLocationTable.MEMO_ID,myLocation.getMemoId());
         sqLiteDatabase.insert(MyLocationTable.TABLE_NAME,null,contentValues);
-       Log.d(TAG, "myLocationInsert: 结束了");
     }
 
     //删除一条记录

@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements MemoFragment.OnMe
 
     private void findByIdAndInit(){
         footFragment = myFragmentPagerAdapter.getFootFragment();
-        toolbar = findViewById(R.id.toolbar);
+//        toolbar = findViewById(R.id.toolbar);
         bottomBar = findViewById(R.id.bottom_bar);
         memoButton = findViewById(R.id.rb_memo);
         footButton = findViewById(R.id.rb_foot);
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements MemoFragment.OnMe
                 }
             }
         });
-        toolbar.setTitle("BeBetter");
+//        toolbar.setTitle("BeBetter");
     }
 
     //动态申请权限
