@@ -103,6 +103,7 @@ public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.
                     memoList.get(i).setCompleteTime(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
                     notifyDataSetChanged();
                 }
+                context.sendBroadcast(new Intent(Constant.UPDATE_ACTION));
                 onSortItemClickListener.onItemChange(memoList.get(i));
             }
         });

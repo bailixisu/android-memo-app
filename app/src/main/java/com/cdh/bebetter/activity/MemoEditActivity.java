@@ -2,6 +2,7 @@ package com.cdh.bebetter.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
@@ -44,7 +45,10 @@ import com.cdh.bebetter.dao.SortMemo;
 import com.cdh.bebetter.dialog.TimePickerDialog;
 import com.cdh.bebetter.views.FontIconView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MemoEditActivity extends AppCompatActivity
@@ -92,6 +96,7 @@ public class MemoEditActivity extends AppCompatActivity
             }
             memo.setColor(sortBackgroundColor);
             memo.setSort(sortText);
+            Log.d(TAG, "onCreate: sortText = " + sortText);
         }
         startTimePickerDialog = new TimePickerDialog(startTimeID);
         deadlinePickerDialog = new TimePickerDialog(deadlineID);
@@ -110,13 +115,18 @@ public class MemoEditActivity extends AppCompatActivity
     }
 
     @Override
-    public void onDialogPositiveClick(TimePickerDialog dialog) {
+    public void onDialogPositiveClick(TimePickerDialog dialog) throws ParseException {
         Log.d(TAG, "onDialogPositiveClick: "+ dialog.getFormatString("yyyy-MM-dd HH:mm"));
         switch (dialog.getIdentity()){
             case deadlineID:
                 deadlineEdit.setText(dialog.getFormatString("yyyy-MM-dd HH:mm"));
                 break;
             case startTimeID:
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                Date date = simpleDateFormat.parse(dialog.getFormatString("yyyy-MM-dd HH:mm"));
+                if(date.getTime() < System.currentTimeMillis() && memo.getStatus() != Constant.COMPLETE){
+                    memo.setStatus(Constant.NOT_COMPLETE);
+                }
                 startTimeEdit.setText(dialog.getFormatString("yyyy-MM-dd HH:mm"));
                 break;
             default:
@@ -161,16 +171,13 @@ public class MemoEditActivity extends AppCompatActivity
                     Toast.makeText(MemoEditActivity.this,"内容不能为空",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (memo.getStartTime().equals(Constant.START_TIME)){
-                    Toast.makeText(MemoEditActivity.this,"开始时间不能为空",Toast.LENGTH_SHORT).show();
-                    return;
-                }
                 memo.setNote(noteEdit.getText().toString());
                 if (isAdd) {
                     databaseAdapter.memoInsert(memo);
                 } else {
                     databaseAdapter.memoUpdate(memo);
                 }
+                sendBroadcast(new Intent(Constant.UPDATE_ACTION));
                 finish();
 
             }

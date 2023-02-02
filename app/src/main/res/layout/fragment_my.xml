@@ -29,6 +29,7 @@
         android:layout_marginBottom="30dp"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/ivHead"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginStart="20dp"

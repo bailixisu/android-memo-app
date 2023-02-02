@@ -23,6 +23,7 @@ import android.widget.TimePicker;
 
 import com.cdh.bebetter.R;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -45,7 +46,7 @@ public class TimePickerDialog extends DialogFragment {
 
 
     public interface NoticeDialogListener {
-        public void onDialogPositiveClick(TimePickerDialog dialog);
+        public void onDialogPositiveClick(TimePickerDialog dialog) throws ParseException;
         public void onDialogNegativeClick(TimePickerDialog dialog);
     }
 
@@ -84,7 +85,11 @@ public class TimePickerDialog extends DialogFragment {
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                listener.onDialogPositiveClick(TimePickerDialog.this);
+                try {
+                    listener.onDialogPositiveClick(TimePickerDialog.this);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {

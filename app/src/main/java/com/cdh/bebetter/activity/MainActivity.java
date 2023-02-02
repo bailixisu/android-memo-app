@@ -117,6 +117,8 @@ public class MainActivity extends AppCompatActivity implements MemoFragment.OnMe
         }
     }
 
+
+
     @Override
     public void onBackGroundChange(int color) {
         Log.d("TAG", "onBackGroundChange: ");

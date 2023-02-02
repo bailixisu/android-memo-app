@@ -9,8 +9,10 @@ public final class Constant {
     public static final int COMPLETE = 1;
     public static final int OUT_DATE = 2;
     public static final String START_TIME = " 开始时间";
+    public static final String DEADLINE = " 截止时间";
     public static final String ALL_MEMO_STRING = "全部待办";
     public static final String NOT_SORT_MEMO_STRING = "未分类";
+    public static final String UPDATE_ACTION = "android.appwidget.action.APPWIDGET_UPDATE";
     public static final int COLOR_0= 0xffe84026;
     public static final int COLOR_1= 0xffe84026;
     public static final int COLOR_2= 0xffed6f22;

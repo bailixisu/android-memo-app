@@ -95,6 +95,7 @@ public class UserFragment extends Fragment {
             PieEntry pieEntry = new PieEntry(0.20f, data);
             mPie.add(pieEntry);
         }
+//        mPie.add(new PieEntry(0,"测试"));
         return mPie;
     }
 
