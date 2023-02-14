@@ -101,4 +101,9 @@ public class MemoSortDatabaseAdapter {
     }
 
 
+    //删除所有记录
+    public void deleteAllRecords(){
+        sqLiteDatabase.delete(MemoSortTable.TABLE_NAME,null,null);
+    }
+
 }

@@ -1,6 +1,8 @@
 package com.cdh.bebetter.activity;
 
 import android.Manifest;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.v4.view.ViewPager;
@@ -47,6 +49,10 @@ public class MainActivity extends AppCompatActivity implements MemoFragment.OnMe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SharedPreferences sharedPreferences = getSharedPreferences(Constant.SHAREPREFERCES_FILENAME,MODE_PRIVATE);
+        if(!sharedPreferences.contains("isLogin")){
+            startActivity(new Intent(MainActivity.this,LoginActivity.class));
+        }
         myFragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         findByIdAndInit();
         memoButton.setChecked(true);

@@ -36,6 +36,10 @@
         android:theme="@style/NoTitle"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:exported="false" />
+
         <service
             android:name=".service.LocationService"
             android:enabled="true"
@@ -63,6 +67,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:exported="false"></activity>
 
         <service android:name="com.amap.api.location.APSService" />
 
@@ -85,7 +92,15 @@
         <service
             android:name=".provider.MyRemoteViewsService"
             android:exported="false"
-            android:permission="android.permission.BIND_REMOTEVIEWS"></service>
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <receiver
+            android:name=".provider.MyAlarmReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.cdh.bebetter.alarm" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

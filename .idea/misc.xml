@@ -10,17 +10,20 @@
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/drawable/circle_images.xml" value="0.1325" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/drawable/edit_bg.xml" value="0.315" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/drawable/edit_bg_selected.xml" value="0.3105" />
+        <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/drawable/ic_account.xml" value="0.1315" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/drawable/ic_all_memo_22dp.xml" value="0.262" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/drawable/ic_allow_down_15dp.xml" value="0.347" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/drawable/ic_allow_down_22dp.xml" value="0.2655" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2885" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/drawable/ic_map_marker.xml" value="0.292" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/drawable/ic_note_22dp.xml" value="0.225" />
+        <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/drawable/ic_password.xml" value="0.1315" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/drawable/ic_sort_note_22dp.xml" value="0.228" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/drawable/ic_sort_note_32dp.xml" value="0.347" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/drawable/ic_start_time.xml" value="0.203" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/drawable/icon.xml" value="0.291" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/drawable/item_card_bg.xml" value="0.346" />
+        <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/drawable/login_icon_style.xml" value="0.114" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/drawable/memo_edit_selector.xml" value="0.3095" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/drawable/memoitembg.xml" value="0.205" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/drawable/popwin_anim_style.xml" value="0.2875" />
@@ -30,9 +33,11 @@
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/drawable/widget_memos_count.xml" value="0.114" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/drawable/widget_style.xml" value="0.1355" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout-v28/layout_time_picker.xml" value="0.245018115942029" />
+        <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout-w936dp/activity_login.xml" value="0.1" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/activity_memo_edit.xml" value="0.264" />
+        <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/activity_regsiter.xml" value="0.1" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/activity_sort_edit.xml" value="0.264" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/activity_sort_memo.xml" value="0.21068376068376068" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/add_memo_sort_popwindow.xml" value="0.2128205128205128" />
@@ -41,16 +46,17 @@
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/fragment_memo.xml" value="0.24659231722428748" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/fragment_memo_sort.xml" value="0.20170940170940171" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/fragment_my.xml" value="0.264" />
-        <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/fragment_user.xml" value="0.31302083333333336" />
+        <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/fragment_user.xml" value="0.273224043715847" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/layout.xml" value="0.2984375" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/layout_time_picker.xml" value="0.4" />
-        <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/login_activity.xml" value="0.1" />
+        <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/login_activity.xml" value="0.16" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/main_sort_list_item.xml" value="0.261965811965812" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/main_sort_popwindow.xml" value="0.4" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/memo_item.xml" value="0.264" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/memo_sort_edit_popwindow.xml" value="0.264" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/memo_sort_popwindow.xml" value="0.45427350427350427" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/memo_sort_popwindow_item.xml" value="0.4423076923076923" />
+        <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/regsiter_acitivity.xml" value="0.1" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/widget_empty.xml" value="0.1" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/widget_layout.xml" value="0.15030211480362538" />
         <entry key="..\:/cuidehua/code/learning/BeBetter/app/src/main/res/layout/widget_memo_item.xml" value="0.1" />

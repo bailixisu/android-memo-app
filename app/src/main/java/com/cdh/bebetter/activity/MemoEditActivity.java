@@ -1,6 +1,8 @@
 package com.cdh.bebetter.activity;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -43,6 +45,7 @@ import com.cdh.bebetter.adapter.MemoSortDatabaseAdapter;
 import com.cdh.bebetter.dao.Memo;
 import com.cdh.bebetter.dao.SortMemo;
 import com.cdh.bebetter.dialog.TimePickerDialog;
+import com.cdh.bebetter.provider.MyAlarmReceiver;
 import com.cdh.bebetter.views.FontIconView;
 
 import java.text.ParseException;
@@ -176,6 +179,22 @@ public class MemoEditActivity extends AppCompatActivity
                     databaseAdapter.memoInsert(memo);
                 } else {
                     databaseAdapter.memoUpdate(memo);
+                }
+                if(!memo.getStartTime().equals(Constant.START_TIME)){
+                    AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                    Intent intent = new Intent(MemoEditActivity.this, MyAlarmReceiver.class);
+                    intent.setAction(Constant.ALARM_ACTION);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("memo", memo);
+                    intent.putExtras(bundle);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(MemoEditActivity.this,0,intent,0);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    try {
+                        Date date = simpleDateFormat.parse(memo.getStartTime());
+                        alarmManager.set(AlarmManager.RTC_WAKEUP,date.getTime(),pendingIntent);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
                 sendBroadcast(new Intent(Constant.UPDATE_ACTION));
                 finish();

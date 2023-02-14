@@ -1,6 +1,8 @@
 package com.cdh.bebetter.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import com.cdh.bebetter.R;
 import com.cdh.bebetter.activity.MemoEditActivity;
 import com.cdh.bebetter.dao.Memo;
 import com.cdh.bebetter.fragment.MemoFragment;
+import com.cdh.bebetter.provider.MyAlarmReceiver;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

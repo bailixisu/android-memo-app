@@ -13,6 +13,10 @@ public final class Constant {
     public static final String ALL_MEMO_STRING = "全部待办";
     public static final String NOT_SORT_MEMO_STRING = "未分类";
     public static final String UPDATE_ACTION = "android.appwidget.action.APPWIDGET_UPDATE";
+    public static final String BASE_URL = "http://192.168.31.81:8080";
+    public static final String SHAREPREFERCES_FILENAME = "user";
+    public static final String ALARM_ACTION = "com.cdh.bebetter.alarm";
+    public static final int NOTIFICATION_ID= 1123;
     public static final int COLOR_0= 0xffe84026;
     public static final int COLOR_1= 0xffe84026;
     public static final int COLOR_2= 0xffed6f22;

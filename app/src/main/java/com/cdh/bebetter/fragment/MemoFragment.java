@@ -37,6 +37,7 @@ import android.text.style.StrikethroughSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -216,7 +217,6 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
 
     public void findByIdAndInit() {
         memoFragmentContainerRoot = view.findViewById(R.id.memoFragmentContainerRoot);
-
         mainTitleLayout = view.findViewById(R.id.mainTitleLayout);
         memoCount = view.findViewById(R.id.memoCount);
         title = view.findViewById(R.id.mainTitle);

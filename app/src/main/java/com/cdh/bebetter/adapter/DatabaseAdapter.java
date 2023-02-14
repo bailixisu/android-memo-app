@@ -141,4 +141,36 @@ public class DatabaseAdapter {
         }
         return memo;
     }
+
+
+    //查找所有memo,按completeTime逆序排序
+    @SuppressLint("Range")
+    public List<Memo> memoFindAllRecordsByCompleteTime(){
+        Cursor cursor = sqLiteDatabase.query(MemoTable.TABLE_NAME,null,null,null,null,null,MemoTable.COMPLETE_TIME + " DESC");
+        List<Memo> memos = new ArrayList<>();
+        int recordsCount = cursor.getCount();
+        cursor.moveToFirst();
+        for (int i = 0; i < recordsCount; i++) {
+            Memo memo = new Memo();
+            memo.setId(cursor.getLong(cursor.getColumnIndex(MemoTable.ID)));
+            memo.setContent(cursor.getString(cursor.getColumnIndex(MemoTable.CONTENT)));
+            memo.setStartTime(cursor.getString(cursor.getColumnIndex(MemoTable.START_TIME)));
+            memo.setDeadline(cursor.getString(cursor.getColumnIndex(MemoTable.DEADLINE)));
+            memo.setCompleteTime(cursor.getString(cursor.getColumnIndex(MemoTable.COMPLETE_TIME)));
+            memo.setNote(cursor.getString(cursor.getColumnIndex(MemoTable.NOTE)));
+            memo.setSort(cursor.getString(cursor.getColumnIndex(MemoTable.SORT)));
+            memo.setStatus(cursor.getInt(cursor.getColumnIndex(MemoTable.STATUS)));
+            memo.setLike(cursor.getInt(cursor.getColumnIndex(MemoTable.LIKE)));
+            memo.setCirculate(cursor.getInt(cursor.getColumnIndex(MemoTable.CIRCULATE)));
+            memo.setColor(cursor.getInt(cursor.getColumnIndex(MemoTable.COLOR)));
+            memos.add(memo);
+            cursor.moveToNext();
+        }
+        return memos;
+    }
+
+    //删除所有数据
+    public void memoDeleteAll(){
+        sqLiteDatabase.delete(MemoTable.TABLE_NAME,null,null);
+    }
 }

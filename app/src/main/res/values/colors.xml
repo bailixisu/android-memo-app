@@ -16,4 +16,14 @@
     <color name="sort_input">#f2f2f2</color>
     <color name="red">#d96350</color>
     <color name="gray">#7c7c7c</color>
+
+
+    <color name="sort_color_1">#ffe84026</color>
+    <color name="sort_color_2">#ffed6f22</color>
+    <color name="sort_color_3">#fff7ce00</color>
+    <color name="sort_color_4">#ff64bb5c</color>
+    <color name="sort_color_5">#ff60cfbe</color>
+    <color name="sort_color_6">#ff46b2e3</color>
+    <color name="sort_color_7">#ffab48f3</color>
+    <color name="sort_color_8">#ff564af6</color>
 </resources>

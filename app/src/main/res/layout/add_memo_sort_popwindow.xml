@@ -42,50 +42,56 @@
                         android:id="@+id/memoSortEditPopWindowRadioButton1"
                         android:layout_marginStart="4dp"
                         android:layout_marginEnd="4dp"
-                        android:background="@drawable/radio_sort_1"
-                        android:buttonTint="@color/purple_500"
+                        android:buttonTint="@color/sort_color_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <RadioButton
                         android:id="@+id/memoSortEditPopWindowRadioButton2"
                         android:layout_marginStart="4dp"
                         android:layout_marginEnd="4dp"
+                        android:buttonTint="@color/sort_color_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <RadioButton
                         android:id="@+id/memoSortEditPopWindowRadioButton3"
                         android:layout_marginStart="4dp"
                         android:layout_marginEnd="4dp"
+                        android:buttonTint="@color/sort_color_3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <RadioButton
                         android:id="@+id/memoSortEditPopWindowRadioButton4"
                         android:layout_marginStart="4dp"
                         android:layout_marginEnd="4dp"
+                        android:buttonTint="@color/sort_color_4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <RadioButton
                         android:id="@+id/memoSortEditPopWindowRadioButton5"
                         android:layout_marginStart="4dp"
                         android:layout_marginEnd="4dp"
+                        android:buttonTint="@color/sort_color_5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <RadioButton
                         android:id="@+id/memoSortEditPopWindowRadioButton6"
                         android:layout_marginStart="4dp"
                         android:layout_marginEnd="4dp"
+                        android:buttonTint="@color/sort_color_6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <RadioButton
                         android:id="@+id/memoSortEditPopWindowRadioButton7"
                         android:layout_marginStart="4dp"
                         android:layout_marginEnd="4dp"
+                        android:buttonTint="@color/sort_color_7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <RadioButton
                         android:id="@+id/memoSortEditPopWindowRadioButton8"
                         android:layout_marginStart="4dp"
                         android:layout_marginEnd="4dp"
+                        android:buttonTint="@color/sort_color_8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                 </RadioGroup>

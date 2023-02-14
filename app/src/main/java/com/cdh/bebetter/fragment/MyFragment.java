@@ -1,5 +1,6 @@
 package com.cdh.bebetter.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -36,7 +37,9 @@ import android.widget.Toast;
 //import com.bumptech.glide.load.engine.DiskCacheStrategy;
 //import com.bumptech.glide.request.RequestOptions;
 //import com.cdh.bebetter.Manifest;
+import com.cdh.bebetter.Constant;
 import com.cdh.bebetter.R;
+import com.cdh.bebetter.activity.LoginActivity;
 import com.cdh.bebetter.adapter.DatabaseAdapter;
 import com.cdh.bebetter.adapter.MemoSortAdapter;
 import com.cdh.bebetter.adapter.MemoSortDatabaseAdapter;
@@ -107,6 +110,9 @@ public class MyFragment extends Fragment {
     private String base64Pic;
     //拍照和相册获取图片的Bitmap
     private Bitmap orc_bitmap;
+
+    TextView username;
+    TextView accountText;
 
     //Glide请求图片选项配置
 //    private RequestOptions requestOptions = RequestOptions.circleCropTransform()
@@ -227,7 +233,7 @@ public class MyFragment extends Fragment {
         memoSortDatabaseAdapter.open();
         myLocationDatabaseAdapter = new MyLocationDatabaseAdapter(getContext());
         myLocationDatabaseAdapter.open();
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("user",Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constant.SHAREPREFERCES_FILENAME,Context.MODE_PRIVATE);
         avatarSrc = sharedPreferences.getString("avatar","");
         if (!avatarSrc.equals("")){
             displayImage(avatarSrc);
@@ -242,7 +248,13 @@ public class MyFragment extends Fragment {
         myLocationDatabaseAdapter.close();
     }
 
+    @SuppressLint("SetTextI18n")
     void initViews(View view) {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constant.SHAREPREFERCES_FILENAME,Context.MODE_PRIVATE);
+        username = view.findViewById(R.id.username);
+        accountText = view.findViewById(R.id.account_text);
+        username.setText(sharedPreferences.getString("username","").replace("\"",""));
+        accountText.setText("账号: "+sharedPreferences.getString("account",""));
         LinearLayout saveDataToCloud = view.findViewById(R.id.saveDataToCloud);
         saveDataToCloud.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -276,7 +288,7 @@ public class MyFragment extends Fragment {
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                logout();
             }
         });
 
@@ -321,8 +333,7 @@ public class MyFragment extends Fragment {
             default:
                 break;
         }
-        Log.d("TAG", "onActivityResult: "+avatarSrc);
-        SharedPreferences.Editor editor = getContext().getSharedPreferences("user",Context.MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = getContext().getSharedPreferences(Constant.SHAREPREFERCES_FILENAME,Context.MODE_PRIVATE).edit();
         editor.putString("avatar",avatarSrc);
         editor.commit();
     }
@@ -400,7 +411,7 @@ public class MyFragment extends Fragment {
 
     void loadDataFromCloud(){
         Request request = new Request.Builder()
-                .url("http://192.168.1.3:8080/memos")
+                .url(Constant.BASE_URL+"/memos")
                 .get()
                 .build();
         try {
@@ -414,7 +425,8 @@ public class MyFragment extends Fragment {
                 public void onResponse(Call call, Response response) throws IOException {
                     String result = response.body().string();
                     try {
-                        JSONArray jsonArray = new JSONArray(result);;
+                        JSONArray jsonArray = new JSONArray(result);
+                        databaseAdapter.memoDeleteAll();
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             Memo memo = new Memo();
@@ -443,7 +455,7 @@ public class MyFragment extends Fragment {
         }
 
         request = new Request.Builder()
-                .url("http://192.168.1.3:8080/sort_memos")
+                .url(Constant.BASE_URL+"/sort_memos")
                 .get()
                 .build();
         try {
@@ -457,6 +469,7 @@ public class MyFragment extends Fragment {
                 public void onResponse(Call call, Response response) throws IOException {
                     String result = response.body().string();
                     try {
+                        memoSortDatabaseAdapter.deleteAllRecords();
                         JSONArray jsonArray = new JSONArray(result);
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -478,7 +491,7 @@ public class MyFragment extends Fragment {
         }
 
         request = new Request.Builder()
-                .url("http://192.168.1.3:8080/locations")
+                .url(Constant.BASE_URL+"/locations")
                 .get()
                 .build();
         try {
@@ -492,6 +505,7 @@ public class MyFragment extends Fragment {
                 public void onResponse(Call call, Response response) throws IOException {
                     String result = response.body().string();
                     try {
+                        myLocationDatabaseAdapter.myLocationDeleteAllRecords();
                         JSONArray jsonArray = new JSONArray(result);;
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -520,7 +534,7 @@ public class MyFragment extends Fragment {
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
         Request request = new Request.Builder()
-                .url("http://192.168.1.3:8080/memos")
+                .url(Constant.BASE_URL+"/memos")
                 .post(body)
                 .build();
         try {
@@ -544,7 +558,7 @@ public class MyFragment extends Fragment {
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
         Request request = new Request.Builder()
-                .url("http://192.168.1.3:8080/sort_memo")
+                .url(Constant.BASE_URL+"/sort_memo")
                 .post(body)
                 .build();
         try {
@@ -569,7 +583,7 @@ public class MyFragment extends Fragment {
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
         Request request = new Request.Builder()
-                .url("http://192.168.1.3:8080/location")
+                .url(Constant.BASE_URL+"/location")
                 .post(body)
                 .build();
         try {
@@ -646,4 +660,11 @@ public class MyFragment extends Fragment {
         }
     }
 
+
+    private void logout(){
+        SharedPreferences.Editor editor = getContext().getSharedPreferences(Constant.SHAREPREFERCES_FILENAME,Context.MODE_PRIVATE).edit();
+        editor.remove("isLogin");
+        editor.apply();
+        startActivity(new Intent(getActivity(), LoginActivity.class));
+    }
 }
