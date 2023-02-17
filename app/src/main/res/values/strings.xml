@@ -13,11 +13,14 @@
     <string name="hello_blank_fragment">Hello MEMO</string>
     <string name="memo">备忘</string>
     <string name="foot">足迹</string>
-    <string name="user">用户</string>
+    <string name="user">统计</string>
     <string name="my">我的</string>
     <string name="edit_memo_toolbar">添加备忘</string>
     <string name="memo_content_hint">备忘内容</string>
     <string name="api_key">498c27aa54e5d1c7b616f4c09b64dd7e</string>
+
+
+    <string name="notification_hint">你有一条待办事项</string>
 
 
     <!--    iconfont 资源-->

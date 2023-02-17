@@ -103,6 +103,7 @@ public class MyFragment extends Fragment {
     MemoSortDatabaseAdapter memoSortDatabaseAdapter;
     MyLocationDatabaseAdapter myLocationDatabaseAdapter;
     String avatarSrc;
+    String identity;
 
     //图片控件
     private ImageView ivHead;
@@ -251,6 +252,7 @@ public class MyFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     void initViews(View view) {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constant.SHAREPREFERCES_FILENAME,Context.MODE_PRIVATE);
+        identity = sharedPreferences.getString("account","");
         username = view.findViewById(R.id.username);
         accountText = view.findViewById(R.id.account_text);
         username.setText(sharedPreferences.getString("username","").replace("\"",""));
@@ -411,7 +413,7 @@ public class MyFragment extends Fragment {
 
     void loadDataFromCloud(){
         Request request = new Request.Builder()
-                .url(Constant.BASE_URL+"/memos")
+                .url(Constant.BASE_URL+"/memos?identifier="+identity)
                 .get()
                 .build();
         try {
@@ -455,7 +457,7 @@ public class MyFragment extends Fragment {
         }
 
         request = new Request.Builder()
-                .url(Constant.BASE_URL+"/sort_memos")
+                .url(Constant.BASE_URL+"/sort_memos?identifier="+identity)
                 .get()
                 .build();
         try {
@@ -491,7 +493,7 @@ public class MyFragment extends Fragment {
         }
 
         request = new Request.Builder()
-                .url(Constant.BASE_URL+"/locations")
+                .url(Constant.BASE_URL+"/locations?identifier="+identity)
                 .get()
                 .build();
         try {
@@ -622,7 +624,7 @@ public class MyFragment extends Fragment {
                 memoJson.put("status",memo.getStatus());
                 memoJson.put("like",memo.getLike());
                 memoJson.put("circulate",memo.getCirculate());
-                memoJson.put("identifier","18607010580");
+                memoJson.put("identifier",identity);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -636,7 +638,7 @@ public class MyFragment extends Fragment {
                 memoSortJson.put("sortText", memoSort.getSortText());
                 memoSortJson.put("sort_icon_color",memoSort.getSortIconColor());
                 memoSortJson.put("sort_background_color",memoSort.getSortBackgroundColor());
-                memoSortJson.put("identifier","18607010580");
+                memoSortJson.put("identifier",identity);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -652,7 +654,7 @@ public class MyFragment extends Fragment {
                 myLocationJson.put("longitude",myLocation.getLongitude());
                 myLocationJson.put("time",myLocation.getTime());
                 myLocationJson.put("memoId",myLocation.getMemoId());
-                myLocationJson.put("identifier","18607010580");
+                myLocationJson.put("identifier",identity);
             } catch (Exception e) {
                 e.printStackTrace();
             }

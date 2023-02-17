@@ -187,6 +187,8 @@ public class MemoEditActivity extends AppCompatActivity
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("memo", memo);
                     intent.putExtras(bundle);
+                    bundle.putLong("id",memo.getId());
+                    intent.putExtra("id",memo.getId());
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(MemoEditActivity.this,0,intent,0);
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                     try {

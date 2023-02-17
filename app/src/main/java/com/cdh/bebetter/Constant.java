@@ -16,6 +16,8 @@ public final class Constant {
     public static final String BASE_URL = "http://192.168.31.81:8080";
     public static final String SHAREPREFERCES_FILENAME = "user";
     public static final String ALARM_ACTION = "com.cdh.bebetter.alarm";
+    public static final String NOTICE_HINT = "你有一条待办事项";
+
     public static final int NOTIFICATION_ID= 1123;
     public static final int COLOR_0= 0xffe84026;
     public static final int COLOR_1= 0xffe84026;

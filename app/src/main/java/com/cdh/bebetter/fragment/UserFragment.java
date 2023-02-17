@@ -277,11 +277,9 @@ public class UserFragment extends Fragment {
             String dateStr = format.format(date);
             int memoCount = 0;
             for (int count = 0; count < memos.size(); count++) {
-                Log.d("TAG", "setLineData: "+memos.size());
-                Log.d("TAG", "setLineData: "+dateStr+"  "+memos.get(count).getCompleteTime());
                 //比较前i天的日期和完成日期
                 if (memos.get(count).getCompleteTime() == null || memos.get(count).getCompleteTime().equals("")
-                        ||memos.get(count).getStatus() == Constant.COMPLETE) {
+                        ||memos.get(count).getStatus() != Constant.COMPLETE) {
                     continue;
                 }
                 if(dateStr.equals(memos.get(count).getCompleteTime().split(" ")[0])){

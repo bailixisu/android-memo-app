@@ -455,7 +455,7 @@ public class MemoFragment extends Fragment implements MainSortListItemAdapter.On
         popupWindow.setTouchable(true);
         popupWindow.setFocusable(true);
         popupWindow.setBackgroundDrawable(new ColorDrawable(backgroundColor));
-        popupWindow.showAtLocation(popWindowView, Gravity.BOTTOM, 0, 60);
+        popupWindow.showAtLocation(popWindowView, Gravity.BOTTOM, 0, 140);
         CardView mainPopWindowRootCard = popWindowView.findViewById(R.id.mainPopWindowRootCard);
         mainPopWindowRootCard.setCardBackgroundColor(backgroundColor);
 

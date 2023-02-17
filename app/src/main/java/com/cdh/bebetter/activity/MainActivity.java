@@ -1,6 +1,9 @@
 package com.cdh.bebetter.activity;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
@@ -62,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements MemoFragment.OnMe
 
 
     private void findByIdAndInit(){
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationChannel channel = new NotificationChannel("default", "Default Channel", NotificationManager.IMPORTANCE_DEFAULT);
+        notificationManager.createNotificationChannel(channel);
         footFragment = myFragmentPagerAdapter.getFootFragment();
 //        toolbar = findViewById(R.id.toolbar);
         bottomBar = findViewById(R.id.bottom_bar);
