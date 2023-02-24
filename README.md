@@ -16,7 +16,7 @@
 
 - 在下拉的分类框中，以及注意的最顶部，均会统计当前备忘的数量
 
-  <img src="C:\Users\14303\AppData\Roaming\Typora\typora-user-images\image-20230216131812099.png" alt="image-20230216131812099" style="zoom: 25%;" /><img src="C:\Users\14303\AppData\Roaming\Typora\typora-user-images\image-20230216131836716.png" alt="image-20230216131836716" style="zoom:25%;" />
+  <img src=".\image\image-20230216131812099.png" alt="image-20230216131812099" style="zoom: 25%;" /><img src=".\image\image-20230216131836716.png" alt="image-20230216131836716" style="zoom:25%;" />
 
 #### 备忘的编辑页
 
@@ -28,7 +28,7 @@
 
 - 点击分类的文本会打开下拉框，进行选择或者新建分类
 
-  <img src="C:\Users\14303\AppData\Roaming\Typora\typora-user-images\image-20230216133805988.png" alt="image-20230216133805988" style="zoom:25%;" /><img src="C:\Users\14303\AppData\Roaming\Typora\typora-user-images\image-20230216133819812.png" alt="image-20230216133819812" style="zoom:25%;" />
+  <img src=".\image\image-20230216133805988.png" alt="image-20230216133805988" style="zoom:25%;" /><img src=".\image\image-20230216133819812.png" alt="image-20230216133819812" style="zoom:25%;" />
 
 #### 备忘分类添加
 
@@ -38,7 +38,7 @@
 
 - 新建分类时可以选择预设的八种颜色，作为图标的颜色，同时会有八种浅色与之对应，作为主页的背景色
 
-  <img src="C:\Users\14303\AppData\Roaming\Typora\typora-user-images\image-20230216134945267.png" alt="image-20230216134945267" style="zoom:25%;" /><img src="C:\Users\14303\AppData\Roaming\Typora\typora-user-images\image-20230216134956466.png" alt="image-20230216134956466" style="zoom:25%;" />
+  <img src=".\image\image-20230216134945267.png" alt="image-20230216134945267" style="zoom:25%;" /><img src=".\image\image-20230216134956466.png" alt="image-20230216134956466" style="zoom:25%;" />
 
   
 
@@ -48,7 +48,7 @@
 - 通过点击分类弹出弹窗，在其进行名称和颜色的修改
 - 点击删除的图标来对分类进行删除
 
-<img src="C:\Users\14303\AppData\Roaming\Typora\typora-user-images\image-20230216135600778.png" alt="image-20230216135600778" style="zoom:25%;" /><img src="C:\Users\14303\AppData\Roaming\Typora\typora-user-images\image-20230216135612449.png" alt="image-20230216135612449" style="zoom:25%;" />
+<img src=".\image\image-20230216135600778.png" alt="image-20230216135600778" style="zoom:25%;" /><img src="C:\Users\14303\AppData\Roaming\Typora\typora-user-images\image-20230216135612449.png" alt="image-20230216135612449" style="zoom:25%;" />
 
 #### 备忘提醒
 
@@ -58,14 +58,14 @@
 
 - 同时通知会显示当前备忘的内容
 
-  <img src="C:\Users\14303\AppData\Roaming\Typora\typora-user-images\image-20230216140712044.png" alt="image-20230216140712044" style="zoom:25%;" /><img src="C:\Users\14303\AppData\Roaming\Typora\typora-user-images\image-20230216140759438.png" alt="image-20230216140759438" style="zoom:25%;" />
+  <img src=".\image\image-20230216140712044.png" alt="image-20230216140712044" style="zoom:25%;" /><img src=".\image\image-20230216140759438.png" alt="image-20230216140759438" style="zoom:25%;" />
 
 #### 备忘完成的位置统计
 
 - 当用户点击完成备忘的按钮时，app会记录用户完成备忘的位置，并且会在足迹的页面（即地图页面标注出来）
 - 当用户单击地图上的marker时，会在下方显示该备忘完成的时间，内容，以及详细的位置，为用户显示其主要完成备忘的地点
 
-<img src="C:\Users\14303\AppData\Roaming\Typora\typora-user-images\image-20230216142150565.png" alt="image-20230216142150565" style="zoom:25%;" />
+<img src=".\image\image-20230216142150565.png" alt="image-20230216142150565" style="zoom:25%;" />
 
 #### 个人设置页
 
@@ -74,28 +74,28 @@
 - 下载数据，根据本地的账号获取数据库中的数据，并将其存入至本地sqlite数据库中
 - 退出登录，用户退出登录。
 
-<img src="C:\Users\14303\AppData\Roaming\Typora\typora-user-images\image-20230216202136834.png" alt="image-20230216202136834" style="zoom:25%;" /><img src="C:\Users\14303\AppData\Roaming\Typora\typora-user-images\image-20230216202147801.png" alt="image-20230216202147801" style="zoom:25%;" />
+<img src=".\image\image-20230216202136834.png" alt="image-20230216202136834" style="zoom:25%;" /><img src=".\image\image-20230216202147801.png" alt="image-20230216202147801" style="zoom:25%;" />
 
 #### 数据展示页
 
 - 利用饼状图来显示用户完成备忘的情况，显示用户完成各个分类的情况，显示用户的倾向
 - 利用折线图显示前七天用户完成备忘的数量
 
-<img src="C:\Users\14303\AppData\Roaming\Typora\typora-user-images\image-20230216203433270.png" alt="image-20230216203433270" style="zoom:25%;" />
+<img src=".\image\image-20230216203433270.png" alt="image-20230216203433270" style="zoom:25%;" />
 
 #### 登录注册页
 
 - app会检查之前是否登录过，如果没有就会跳转至登录页，进行账号密码登录
 - 同时可以在登录页点击注册，输入账号，密码，用户名后，点击注册即可
 
-<img src="C:\Users\14303\AppData\Roaming\Typora\typora-user-images\image-20230216203517653.png" alt="image-20230216203517653" style="zoom:25%;" /><img src="C:\Users\14303\AppData\Roaming\Typora\typora-user-images\image-20230216203527799.png" alt="image-20230216203527799" style="zoom:25%;" />
+<img src=".\image\image-20230216203517653.png" alt="image-20230216203517653" style="zoom:25%;" /><img src=".\image\image-20230216203527799.png" alt="image-20230216203527799" style="zoom:25%;" />
 
 #### 小组件（widget）
 
 - 左侧显示日期，星期，以及添加按钮，在点击添加按钮之后便会进入备忘的添加页
 - 右侧显示所有的待办备忘，上方显示备忘的数量，下方显示各个备忘的详细情况，点击后会进入备忘的编辑页
 - 点击其他地方可以进入app主页
-- <img src="C:\Users\14303\AppData\Roaming\Typora\typora-user-images\image-20230216201919482.png" alt="image-20230216201919482" style="zoom:25%;" />
+- <img src=".\image\image-20230216201919482.png" alt="image-20230216201919482" style="zoom:25%;" />
 
 
 
